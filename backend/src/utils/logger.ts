@@ -11,30 +11,21 @@ const logFormat = winston.format.combine(
 const logger = winston.createLogger({
   level: config.nodeEnv === 'production' ? 'info' : 'debug',
   format: logFormat,
-  defaultMeta: { service: 'urbanserve-backend' },
+  defaultMeta: {
+    service: 'urbanserve-backend',
+  },
   transports: [
-    // Console transport for development
     new winston.transports.Console({
       format: winston.format.combine(
         winston.format.colorize(),
         winston.format.printf(
           ({ timestamp, level, message, ...meta }) =>
-            `${timestamp} [${level}]: ${message} ${Object.keys(meta).length ? JSON.stringify(meta, null, 2) : ''}`
+            `${timestamp} [${level}]: ${message} ${Object.keys(meta).length
+              ? JSON.stringify(meta, null, 2)
+              : ''
+            }`
         )
       ),
-    }),
-    // File transport for errors
-    new winston.transports.File({
-      filename: 'logs/error.log',
-      level: 'error',
-      maxsize: 5242880, // 5MB
-      maxFiles: 5,
-    }),
-    // File transport for all logs
-    new winston.transports.File({
-      filename: 'logs/combined.log',
-      maxsize: 5242880, // 5MB
-      maxFiles: 5,
     }),
   ],
 });
