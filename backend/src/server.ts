@@ -30,7 +30,10 @@ app.use(helmet());
 // CORS configuration
 app.use(
   cors({
-    origin: config.corsOrigins,
+    origin: [
+      'http://localhost:3000',
+      'https://urbanserve-delta.vercel.app',
+    ],
     credentials: true,
   })
 );
